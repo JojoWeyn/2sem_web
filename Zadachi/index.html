@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Список дел</title>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #6e5050;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .completed {
+                text-decoration: line-through;
+                color: #888;
+            }
+
+            #taskInput {
+                flex-grow: 1;
+                margin-right: 10px;
+            }
+
+            #taskList {
+                width: 100%;
+                max-width: 400px;
+                overflow-y: auto;
+                height: 300px;
+            }
+
+            .task {
+                background-color: #bb2f2f;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 10px;
+                margin-bottom: 10px;
+                transition: background-color 0.3s ease;
+            }
+
+            .task:hover {
+                background-color: #856363;
+            }
+
+            .task input[type="checkbox"] {
+                margin-right: 10px;
+            }
+
+            .task span {
+                margin-left: 10px;
+            }
+
+            .task button {
+                background-color: #007bff;
+                color: rgb(87, 33, 33);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .task button:hover {
+                background-color: #656565;
+            }
+
+            p {
+                text-align: center;
+            }
+
+            .line {
+               
+                margin-top: 20px;
+                border-bottom: 1px solid black;
+            }
+
+            footer {
+                width: 100%;
+            }
+
+            .input-buttons-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                max-width: 400px;
+                margin-bottom: 20px;
+            }
+
+            @media (max-width: 600px) {
+                #taskInput {
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+            }
+
+
+
+
+        </style>
+    </head>
+    <body>
+        <header></header>
+
+        <h1>Список дел</h1>
+        <div class="input-buttons-container">
+            <input type="text" id="taskInput" placeholder="Добавить новое дело">
+            <button onclick="addTask()">Создать</button>
+            <button onclick="clearAll()">Очистить список</button>
+        </div>
+
+        <div id="taskList"></div>
+
+
+        <script>
+            function addTask() {
+                const taskInput = document.getElementById('taskInput');
+                const taskList = document.getElementById('taskList');
+                const taskText = taskInput.value;
+                if (taskText.trim() !== '') {
+                    const taskItem = document.createElement( 'div');
+                    taskItem.className = 'task';
+                    const curentDate = new Date().toLocaleDateString();
+                    taskItem.innerHTML = `
+                        <input type="checkbox" onchange="toggleTaskCompletion(this)">
+                        <span>${taskText} от (${curentDate})</span>
+                        <button onclick="removeTask(this)">Удалить</button>
+                    `;
+                    taskList.appendChild(taskItem);
+                    taskInput.value = '';
+                } else {
+                    alert('введите текст')
+                }
+            }
+            
+            function toggleTaskCompletion(checkbox) {
+                const taskText = checkbox.nextElementSibling;
+                taskText.classList.toggle('completed');
+            }
+
+            function removeTask(button) {
+                const taskItem = button.parentNode;
+                taskItem.remove();
+            }
+
+            function clearAll() {
+                document.getElementById('taskList').innerHTML = '';
+            }
+                            
+        </script>
+        <footer>
+            <div class="line"></div>
+            <p>Copyright (c)</p>
+        </footer>
+    </body>
+</html>
